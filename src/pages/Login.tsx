@@ -8,12 +8,14 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import { useLanguage } from '../context/LanguageContext';
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from '../context/AuthContext';
 import { Mail, LockKeyhole } from 'lucide-react';
 
 const Login = () => {
   const navigate = useNavigate();
   const { t } = useLanguage();
   const { toast } = useToast();
+  const { login } = useAuth();
 
   const [formData, setFormData] = useState({
     email: '',
@@ -54,40 +56,23 @@ const Login = () => {
     }
 
     setIsLoading(true);
-    // Simulate API call for login
+    
     try {
-      // In a real application, you would send formData to your backend login endpoint
-      // const response = await fetch('/api/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(formData),
-      // });
-      // const data = await response.json();
-
-      // if (response.ok) {
-      //   // Handle successful login (e.g., store token, redirect)
-      //   toast({
-      //     title: t('loginSuccess'),
-      //     description: t('welcomeBack'),
-      //   });
-      //   navigate('/dashboard'); // Redirect to user dashboard
-      // } else {
-      //   // Handle login errors from backend
-      //   toast({
-      //     title: t('loginFailed'),
-      //     description: data.message || t('invalidCredentials'),
-      //     variant: 'destructive',
-      //   });
-      // }
-
-      // Mock successful login after a delay
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      toast({
-        title: t('loginSuccess'),
-        description: t('welcomeBack'),
-      });
-      navigate('/dashboard'); // Redirect to a conceptual dashboard
-
+      const success = await login(formData.email, formData.password);
+      
+      if (success) {
+        toast({
+          title: t('loginSuccess'),
+          description: t('welcomeBack'),
+        });
+        navigate('/dashboard');
+      } else {
+        toast({
+          title: t('loginFailed'),
+          description: t('invalidCredentials'),
+          variant: 'destructive',
+        });
+      }
     } catch (error) {
       console.error('Login error:', error);
       toast({

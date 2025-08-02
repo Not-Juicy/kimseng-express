@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "./context/ThemeContext";
 import { BookingProvider } from "./context/BookingContext";
 import { LanguageProvider } from "./context/LanguageContext";
+import { AuthProvider } from "./context/AuthContext";
 import { ThemeToggle } from "./components/ui/ThemeToggle";
 import { BackToTop } from "./components/ui/BackToTop";
 import Index from "./pages/Index";
@@ -26,33 +27,35 @@ const queryClient = new QueryClient();
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <ThemeProvider>
-      <BookingProvider>
-        <LanguageProvider>
-    <TooltipProvider>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-              <AnimatePresence mode="wait">
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/routes" element={<RoutesPage />} />
-          <Route path="/booking" element={<Booking />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/booking-confirmation" element={<BookingConfirmation />} />
-                  <Route path="/booking-history" element={<BookingHistory />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-              </AnimatePresence>
-              <ThemeToggle />
-              <BackToTop />
-      </BrowserRouter>
-    </TooltipProvider>
-        </LanguageProvider>
-      </BookingProvider>
+      <AuthProvider>
+        <BookingProvider>
+          <LanguageProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              <BrowserRouter>
+                <AnimatePresence mode="wait">
+                  <Routes>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/routes" element={<RoutesPage />} />
+                    <Route path="/booking" element={<Booking />} />
+                    <Route path="/contact" element={<Contact />} />
+                    <Route path="/about" element={<About />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/dashboard" element={<Dashboard />} />
+                    <Route path="/booking-confirmation" element={<BookingConfirmation />} />
+                    <Route path="/booking-history" element={<BookingHistory />} />
+                    <Route path="*" element={<NotFound />} />
+                  </Routes>
+                </AnimatePresence>
+                <ThemeToggle />
+                <BackToTop />
+              </BrowserRouter>
+            </TooltipProvider>
+          </LanguageProvider>
+        </BookingProvider>
+      </AuthProvider>
     </ThemeProvider>
   </QueryClientProvider>
 );
